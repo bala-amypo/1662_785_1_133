@@ -19,4 +19,13 @@ public class DemandForecast {
     private LocalDate forecastDate;
     private Integer predictedDemand;
     private Double confidenceScore;
+
+    // REQUIRED getters
+    public LocalDate getForecastDate() {
+        return forecastDate;
+    }
+
+    public Integer getPredictedDemand() {
+        return predictedDemand;
+    }
 }
