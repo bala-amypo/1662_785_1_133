@@ -17,7 +17,6 @@ public class InventoryLevel {
     private Product product;
 
     private Integer quantity;
-
     private LocalDateTime lastUpdated;
 
     @PrePersist
@@ -26,37 +25,5 @@ public class InventoryLevel {
         lastUpdated = LocalDateTime.now();
     }
 
-    // ✅ GETTERS & SETTERS
-
-    public Long getId() {
-        return id;
-    }
-
-    public Store getStore() {
-        return store;
-    }
-
-    public void setStore(Store store) {
-        this.store = store;
-    }
-
-    public Product getProduct() {
-        return product;
-    }
-
-    public void setProduct(Product product) {
-        this.product = product;
-    }
-
-    public Integer getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(Integer quantity) {
-        this.quantity = quantity;
-    }
-
-    public LocalDateTime getLastUpdated() {
-        return lastUpdated;
-    }
+    // getters & setters
 }

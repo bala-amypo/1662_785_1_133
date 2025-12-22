@@ -20,7 +20,7 @@ public class TransferSuggestion {
     private Product product;
 
     private Integer quantity;
-    private String priority;
+    private String priority; // HIGH / MEDIUM / LOW
     private String status = "PENDING";
     private LocalDateTime suggestedAt = LocalDateTime.now();
 
