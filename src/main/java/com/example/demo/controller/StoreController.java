@@ -1,3 +1,11 @@
+package com.example.demo.controller;
+
+import com.example.demo.entity.Store;
+import com.example.demo.service.StoreService;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/stores")
 public class StoreController {
@@ -9,17 +17,17 @@ public class StoreController {
     }
 
     @PostMapping
-    public Store create(@RequestBody Store store) {
-        return storeService.createStore(store);
+    public Store createStore(@RequestBody Store store) {
+        return storeService.create(store);
     }
 
     @GetMapping("/{id}")
-    public Store get(@PathVariable Long id) {
-        return storeService.getStoreById(id);
+    public Store getStore(@PathVariable Long id) {
+        return storeService.get(id);
     }
 
     @GetMapping
-    public List<Store> getAll() {
-        return storeService.getAllStores();
+    public List<Store> getAllStores() {
+        return storeService.getAll();
     }
 }

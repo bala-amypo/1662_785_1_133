@@ -1,18 +1,18 @@
 package com.example.demo.controller;
 
 import com.example.demo.entity.InventoryLevel;
-import com.example.demo.service.InventoryLevelService;
+import com.example.demo.service.InventoryService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/inventory")
-public class InventoryLevelController {
+public class InventoryController {
 
-    private final InventoryLevelService inventoryService;
+    private final InventoryService inventoryService;
 
-    public InventoryLevelController(InventoryLevelService inventoryService) {
+    public InventoryController(InventoryService inventoryService) {
         this.inventoryService = inventoryService;
     }
 
@@ -22,11 +22,11 @@ public class InventoryLevelController {
             @RequestParam Long productId,
             @RequestParam Integer quantity) {
 
-        return inventoryService.updateInventory(storeId, productId, quantity);
+        return inventoryService.update(storeId, productId, quantity);
     }
 
     @GetMapping("/store/{storeId}")
     public List<InventoryLevel> getInventoryByStore(@PathVariable Long storeId) {
-        return inventoryService.getInventoryByStore(storeId);
+        return inventoryService.getByStore(storeId);
     }
 }
