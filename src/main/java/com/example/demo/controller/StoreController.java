@@ -17,17 +17,17 @@ public class StoreController {
     }
 
     @PostMapping
-    public Store createStore(@RequestBody Store store) {
-        return storeService.create(store);
+    public Store create(@RequestBody Store store) {
+        return storeService.createStore(store);
     }
 
     @GetMapping("/{id}")
-    public Store getStore(@PathVariable Long id) {
-        return storeService.get(id);
+    public Store get(@PathVariable Long id) {
+        return storeService.getStoreById(id);
     }
 
     @GetMapping
-    public List<Store> getAllStores() {
-        return storeService.getAll();
+    public List<Store> list() {
+        return storeService.getAllStores();
     }
 }
