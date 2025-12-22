@@ -1,10 +1,9 @@
-package com.example.demo.service.impl;
+package com.example.demo.service;
 
 import com.example.demo.entity.Product;
 import com.example.demo.exception.BadRequestException;
 import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.repository.ProductRepository;
-import com.example.demo.service.ProductService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,7 +18,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Product create(Product product) {
+    public Product createProduct(Product product) {
         if (productRepository.findBySku(product.getSku()).isPresent()) {
             throw new BadRequestException("SKU already exists");
         }
@@ -27,13 +26,13 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Product get(Long id) {
+    public Product getProductById(Long id) {
         return productRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("not found"));
     }
 
     @Override
-    public List<Product> getAll() {
+    public List<Product> getAllProducts() {
         return productRepository.findAll();
     }
 }
