@@ -4,28 +4,32 @@ import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
+@Table(name = "transfer_suggestion")
 public class TransferSuggestion {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
     private Store sourceStore;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
     private Store targetStore;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
     private Product product;
 
+    @Column(nullable = false)
     private Integer quantity;
-    private String priority;
-    private LocalDateTime suggestedAt;
-    private String status = "PENDING";
 
-    @PrePersist
-    public void onCreate() {
-        suggestedAt = LocalDateTime.now();
-    }
+    @Column(nullable = false)
+    private String priority; // HIGH / MEDIUM / LOW
+
+    @Column(nullable = false)
+    private String status = "PENDING"; // PENDING / APPROVED / REJECTED
+
+    private LocalDateTime suggestedAt = LocalDateTime.now();
+
+    // getters and setters
 }

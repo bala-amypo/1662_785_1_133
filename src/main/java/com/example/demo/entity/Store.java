@@ -3,20 +3,24 @@ package com.example.demo.entity;
 import jakarta.persistence.*;
 
 @Entity
+@Table(
+    name = "store",
+    uniqueConstraints = @UniqueConstraint(columnNames = "storeName")
+)
 public class Store {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true, nullable = false)
+    @Column(nullable = false, unique = true)
     private String storeName;
 
     private String address;
     private String region;
+
+    @Column(nullable = false)
     private Boolean active = true;
 
-    public Long getId() { return id; }
-    public String getStoreName() { return storeName; }
-    public void setStoreName(String storeName) { this.storeName = storeName; }
+    // getters and setters
 }
