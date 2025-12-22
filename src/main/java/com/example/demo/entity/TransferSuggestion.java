@@ -20,9 +20,12 @@ public class TransferSuggestion {
     private Product product;
 
     private Integer quantity;
-    private String priority; // HIGH / MEDIUM / LOW
+    private String priority;
+    private LocalDateTime suggestedAt;
     private String status = "PENDING";
-    private LocalDateTime suggestedAt = LocalDateTime.now();
 
-    // getters & setters
+    @PrePersist
+    public void onCreate() {
+        suggestedAt = LocalDateTime.now();
+    }
 }

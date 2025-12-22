@@ -21,9 +21,7 @@ public class InventoryLevel {
 
     @PrePersist
     @PreUpdate
-    public void updateTime() {
+    public void updateTimestamp() {
         lastUpdated = LocalDateTime.now();
     }
-
-    // getters & setters
 }

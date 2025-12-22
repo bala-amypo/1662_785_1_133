@@ -19,6 +19,4 @@ public class DemandForecast {
     private LocalDate forecastDate;
     private Integer predictedDemand;
     private Double confidenceScore;
-
-    // getters & setters
 }
