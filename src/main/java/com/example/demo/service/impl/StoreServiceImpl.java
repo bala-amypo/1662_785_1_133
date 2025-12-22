@@ -18,18 +18,22 @@ public class StoreServiceImpl implements StoreService {
         this.storeRepository = storeRepository;
     }
 
+    @Override
     public Store createStore(Store store) {
-        if (storeRepository.findByStoreName(store.getStoreName()).isPresent()) {
-            throw new BadRequestException("Store name already exists");
-        }
+        storeRepository.findByStoreName(store.getStoreName())
+                .ifPresent(s -> {
+                    throw new BadRequestException("Store name already exists");
+                });
         return storeRepository.save(store);
     }
 
+    @Override
     public Store getStoreById(Long id) {
         return storeRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("not found"));
     }
 
+    @Override
     public List<Store> getAllStores() {
         return storeRepository.findAll();
     }
