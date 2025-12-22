@@ -10,14 +10,25 @@ import java.util.List;
 @RequestMapping("/api/suggestions")
 public class TransferSuggestionController {
 
-    private final InventoryBalancerService service;
+    private final InventoryBalancerService inventoryBalancerService;
 
-    public TransferSuggestionController(InventoryBalancerService service) {
-        this.service = service;
+    public TransferSuggestionController(InventoryBalancerService inventoryBalancerService) {
+        this.inventoryBalancerService = inventoryBalancerService;
     }
 
     @PostMapping("/generate/{productId}")
-    public List<TransferSuggestion> generate(@PathVariable Long productId) {
-        return service.generateSuggestions(productId);
+    public String generateSuggestions(@PathVariable Long productId) {
+        inventoryBalancerService.generateSuggestions(productId);
+        return "Transfer suggestions generated";
+    }
+
+    @GetMapping("/store/{storeId}")
+    public List<TransferSuggestion> getSuggestionsForStore(@PathVariable Long storeId) {
+        return inventoryBalancerService.getSuggestionsForStore(storeId);
+    }
+
+    @GetMapping("/{id}")
+    public TransferSuggestion getSuggestionById(@PathVariable Long id) {
+        return inventoryBalancerService.getSuggestionById(id);
     }
 }
