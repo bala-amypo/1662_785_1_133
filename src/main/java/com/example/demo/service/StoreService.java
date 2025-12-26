@@ -1,13 +1,9 @@
-package com.example.demo.service;
-
-import com.example.demo.entity.Store;
-import java.util.List;
-
-public interface StoreService {
-
-    Store createStore(Store store);
-
-    Store getStoreById(Long id);
-
-    List<Store> getAllStores();
+@WebServlet("/status")
+public class SimpleStatusServlet extends HttpServlet {
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        resp.setContentType("text/plain");
+        resp.setStatus(HttpServletResponse.SC_OK);
+        resp.getWriter().write("Multi-Location Inventory Balancer is running");
+    }
 }
