@@ -1,22 +1,56 @@
 package com.example.demo.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.*;
 
 @Entity
 public class Product {
+
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(unique = true)
+    private String sku;
+
     private String name;
-    private double price;
-    
-    // constructors, getters, setters
-    public Product() {}
-    public Product(String name, double price) {
-        this.name = name;
-        this.price = price;
+    private String category;
+    private boolean active = true;
+
+    // ===== GETTERS & SETTERS =====
+
+    public Long getId() {
+        return id;
     }
-    // ... getters/setters
+
+    public String getSku() {
+        return sku;
+    }
+ 
+    public void setSku(String sku) {
+        this.sku = sku;
+    }
+ 
+    public String getName() {
+        return name;
+    }
+ 
+    public void setName(String name) {
+        this.name = name;
+    }
+ 
+    public String getCategory() {
+        return category;
+    }
+ 
+    public void setCategory(String category) {
+        this.category = category;
+    }
+ 
+    public boolean isActive() {
+        return active;
+    }
+ 
+    public void setActive(boolean active) {
+        this.active = active;
+    }
 }
