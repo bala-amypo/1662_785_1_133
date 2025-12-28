@@ -1,18 +1,12 @@
-package com.example.demo.servlet;
+package com.example.demo.service;
 
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import java.io.IOException;
+import com.example.demo.entity.Store;
+import java.util.List;
 
-public class SimpleStatusServlet extends HttpServlet {
-
-    @Override
-    public void doGet(HttpServletRequest req, HttpServletResponse resp)
-            throws IOException {
-
-        resp.setContentType("text/plain");
-        resp.setStatus(HttpServletResponse.SC_OK);
-        resp.getWriter().write("Multi-Location Inventory Balancer is running");
-    }
+public interface StoreService {
+    Store createStore(Store store);
+    Store updateStore(Long id, Store store);
+    void deactivateStore(Long id);
+    Store getStoreById(Long id);
+    List<Store> getAllStores();
 }
