@@ -4,65 +4,61 @@ import com.example.demo.entity.InventoryLevel;
 import com.example.demo.entity.Product;
 import com.example.demo.entity.Store;
 import com.example.demo.exception.BadRequestException;
-import com.example.demo.exception.ResourceNotFoundException;
-import com.example.demo.repository.InventoryLevelRepository;
+import com.example.demo.repository.InventoryRepository;
 import com.example.demo.repository.ProductRepository;
 import com.example.demo.repository.StoreRepository;
 import com.example.demo.service.InventoryService;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
-import java.util.List;
-
 @Service
 public class InventoryServiceImpl implements InventoryService {
 
-    private final InventoryLevelRepository inventoryRepo;
-    private final StoreRepository storeRepo;
-    private final ProductRepository productRepo;
+    private final InventoryRepository inventoryRepository;
+    private final StoreRepository storeRepository;
+    private final ProductRepository productRepository;
 
-    public InventoryServiceImpl(InventoryLevelRepository inventoryRepo,
-                                StoreRepository storeRepo,
-                                ProductRepository productRepo) {
-        this.inventoryRepo = inventoryRepo;
-        this.storeRepo = storeRepo;
-        this.productRepo = productRepo;
+    public InventoryServiceImpl(
+            InventoryRepository inventoryRepository,
+            StoreRepository storeRepository,
+            ProductRepository productRepository
+    ) {
+        this.inventoryRepository = inventoryRepository;
+        this.storeRepository = storeRepository;
+        this.productRepository = productRepository;
     }
 
-    // ✅ THIS FIXES t16_createInventory_forStoreAndProduct_success
     @Override
-    public InventoryLevel update(Long storeId, Long productId, Integer quantity) {
+    public InventoryLevel createOrUpdateInventory(
+            Long storeId,
+            Long productId,
+            int quantity
+    ) {
 
         if (quantity < 0) {
-            throw new BadRequestException("Quantity must be >= 0");
+            throw new BadRequestException("Quantity cannot be negative");
         }
 
-        Store store = storeRepo.findById(storeId)
-                .orElseThrow(() -> new ResourceNotFoundException("not found"));
+        Store store = storeRepository.findById(storeId)
+                .orElseThrow(() -> new BadRequestException("Store not found"));
 
-        Product product = productRepo.findById(productId)
-                .orElseThrow(() -> new ResourceNotFoundException("not found"));
+        Product product = productRepository.findById(productId)
+                .orElseThrow(() -> new BadRequestException("Product not found"));
 
-        InventoryLevel inventory = inventoryRepo
-                .findByStoreAndProduct(store, product)
-                .orElse(new InventoryLevel());
+        return inventoryRepository
+                .findByStoreIdAndProductId(storeId, productId)
+                .map(existing -> {
+                    existing.setQuantity(quantity);
+                    InventoryLevel saved = inventoryRepository.saveAndFlush(existing);
+                    return inventoryRepository.findById(saved.getId()).orElse(saved);
+                })
+                .orElseGet(() -> {
+                    InventoryLevel inventory = new InventoryLevel();
+                    inventory.setStore(store);
+                    inventory.setProduct(product);
+                    inventory.setQuantity(quantity);
 
-        inventory.setStore(store);
-        inventory.setProduct(product);
-        inventory.setQuantity(quantity);
-
-        return inventoryRepo.save(inventory);
-    }
-
-    @Override
-    public List<InventoryLevel> getByStore(Long storeId) {
-
-        Store store = storeRepo.findById(storeId).orElse(null);
-
-        if (store == null) {
-            return Collections.emptyList();
-        }
-
-        return inventoryRepo.findByStore(store);
+                    InventoryLevel saved = inventoryRepository.saveAndFlush(inventory);
+                    return inventoryRepository.findById(saved.getId()).orElse(saved);
+                });
     }
 }
